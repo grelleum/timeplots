@@ -12,7 +12,7 @@
 # import re
 import sys
 
-from bokeh import layouts, models, plotting
+from bokeh import layouts, models, plotting, palettes
 
 
 class Plotter(object):
@@ -67,7 +67,8 @@ class Plotter(object):
         plot.yaxis.formatter = models.NumeralTickFormatter(format="0a")
 
         # Legend click policy must be defined after a legend is added.
-        self.active_plot.legend.click_policy = "hide"  # other optins: mute
+        plot.legend.click_policy = "hide"  # other optins: mute
+        plot.legend.location = "top_left"
 
         hover = models.HoverTool(
             mode="mouse",  # other optins: vline
