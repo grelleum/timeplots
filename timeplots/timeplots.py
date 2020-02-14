@@ -84,6 +84,7 @@ class Plotter(object):
         plot.add_tools(models.SaveTool())
         plot.add_tools(models.WheelZoomTool(dimensions="width"))
         plot.toolbar.active_scroll = plot.select_one(models.WheelZoomTool)
+        plot.add_tools(models.WheelZoomTool(dimensions="height"))
 
     def add_line(self, name, timestamps, data, color=None):
         """Add a line to the active plot."""
