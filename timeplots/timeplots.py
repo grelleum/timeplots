@@ -1,9 +1,7 @@
-"""Main module."""
-
 #!/opt/support/python37/bin/python3
-
 # -*- coding: latin-1 -*-
 
+"""Provide tools for plotting time based line graphs."""
 
 # from collections import defaultdict, deque
 # from datetime import datetime, timedelta
