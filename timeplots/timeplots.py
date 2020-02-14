@@ -45,7 +45,7 @@ class Plotter(object):
         plot = plotting.figure(title=title, tools=[])
         self.active_plot = plot
         self.plots.append(plot)
-        self.colors = ["red", "green", "blue"]
+        self.colors = list(reversed(palettes.colorblind["Colorblind"][8]))
         self.units = units
 
         plot.plot_width = self.width
@@ -89,12 +89,16 @@ class Plotter(object):
 
     def add_line(self, name, timestamps, data, color=None):
         """Add a line to the active plot."""
+
+        if color is None:
+            color = self.colors.pop()
+
         try:
             self.active_plot.line(
                 timestamps,
                 data,
                 line_width=1,
-                color="blue",
+                color=color,
                 name=name,
                 legend_label=name,
             )
