@@ -36,7 +36,6 @@ class Plotter(object):
         self.active_plot = None
 
     def new_plot(self, title, units):
-
         """
         Creates a blank line plot for with timestamps on the x-axis and
         a line for each data series on the y-axis.
@@ -57,18 +56,8 @@ class Plotter(object):
         }
         plot.xaxis.formatter = models.DatetimeTickFormatter(**datetime_tick_formats)
 
-    def _finalize(self, plot):
-
-        """
-        Adds the finishing touches to a plot.
-        """
-
         # https://bokeh.pydata.org/en/latest/docs/reference/models/formatters.html
         plot.yaxis.formatter = models.NumeralTickFormatter(format="0a")
-
-        # Legend click policy must be defined after a legend is added.
-        plot.legend.click_policy = "hide"  # other optins: mute
-        plot.legend.location = "top_left"
 
         hover = models.HoverTool(
             mode="mouse",  # other optins: vline
@@ -90,29 +79,23 @@ class Plotter(object):
     def add_line(self, name, timestamps, data, color=None):
         """Add a line to the active plot."""
 
+        if self.active_plot is None:
+            error = "Error: You must create a 'new_plot' before adding a line."
+            print(error, file=sys.stderr)
+
         if color is None:
             color = self.colors.pop()
 
-        try:
-            self.active_plot.line(
-                timestamps,
-                data,
-                line_width=1,
-                color=color,
-                name=name,
-                legend_label=name,
-            )
-        except AttributeError:
-            print(
-                "Error: You must create a 'new_plot' before adding a line.",
-                file=sys.stderr,
-            )
+        self.active_plot.line(
+            timestamps, data, line_width=1, color=color, name=name, legend_label=name
+        )
+
+        # Legend click policy must be defined after a legend is added.
+        self.active_plot.legend.click_policy = "hide"  # other optins: mute
+        self.active_plot.legend.location = "top_left"
 
     def render(self, *, filename=None, title=None):
         """Display the plots or write to file."""
-
-        for plot in self.plots:
-            self._finalize(plot)
 
         if filename is None:
             plotting.output_notebook()
