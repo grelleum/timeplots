@@ -10,6 +10,8 @@
 # import gzip
 # import os
 # import re
+
+from datetime import datetime
 import sys
 
 from bokeh import layouts, models, plotting, palettes
@@ -106,6 +108,17 @@ class Plotter(object):
             plotting.output_file(filename, title=title, mode="inline")
             print(f"Writing file '{filename}'")
             plotting.save(layouts.column(*self.plots))
+
+
+def strptime(text, pattern):
+    """
+    Accepts a string and strptime format,.
+    Returns a datetime object representing the date.
+    """
+    size = len(pattern.split())
+    words = text.split()
+    text = " ".join(words[:size])
+    return datetime.strptime(text, pattern)
 
 
 def missing_time_data(timestamps, data, *, default=0):
