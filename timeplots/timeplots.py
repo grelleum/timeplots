@@ -114,11 +114,13 @@ def strptime(text, pattern):
     """
     Accepts a string and strptime format,.
     Returns a datetime object representing the date.
+    datetime.strptime raises ValueError if pattern is not found in text.
     """
     size = len(pattern.split())
-    words = text.split()
-    text = " ".join(words[:size])
-    return datetime.strptime(text, pattern)
+    words = text.split()[:size]
+    text = " ".join(words)
+    timestamp = datetime.strptime(text, pattern)
+    return timestamp
 
 
 def missing_time_data(timestamps, data, *, default=0):
