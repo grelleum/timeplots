@@ -75,17 +75,18 @@ def match_any_lines(logtime, lines):
             yield timestamp
 
 
-# def match_lines(logtime, lines, expressions):
-#     expressions = [re.compile(expression) for expression in expressions]
-#     for line in lines:
-#         for expression in expressions:
-#             try:
-#                 timestamp = logtime.strptime(line)
-#             except ValueError as e:
-#                 print(repr(e), file=sys.stderr)
-#             else:
-#                 print(">>>", timestamp, end="\r", flush=True)
-#                 yield timestamp
+def match_lines(logtime, lines, expressions):
+    expressions = [(exp, re.compile(exp)) for exp in expressions]
+    for line in lines:
+        for expression, regex in expressions:
+            if regex.search(line):
+                try:
+                    timestamp = logtime.strptime(line)
+                except ValueError as e:
+                    print(repr(e), file=sys.stderr)
+                else:
+                    print(">>>", timestamp, end="\r", flush=True)
+                    yield expression, timestamp
 
 
 def main():
@@ -100,12 +101,23 @@ def main():
     )
 
     lines = (line for line in FileInput(args.get("<filename>")))
-    c = Counter(match_any_lines(logtime, lines))
-    times, data = zip(*sorted(c.items()))
 
     plotter = timeplots.Plotter(width=1400)
     plotter.new_plot("Stuff happening", "stuff/day")
-    plotter.add_line(f"stuff/day", times, data)
+
+    if args.get("-e"):
+        buckets = defaultdict(deque)
+        for expression, timestamp in match_lines(logtime, lines, args.get("-e")):
+            buckets[expression].append(timestamp)
+        for expression, times in buckets.items():
+            c = Counter(times)
+            times, data = zip(*sorted(c.items()))
+            plotter.add_line(expression, times, data)
+    else:
+        c = Counter(match_any_lines(logtime, lines))
+        times, data = zip(*sorted(c.items()))
+        plotter.add_line("values", times, data)
+
     plotter.render(filename="testplots.html", title="testplots")
 
 
