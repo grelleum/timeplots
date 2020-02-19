@@ -110,19 +110,6 @@ class Plotter(object):
             plotting.save(layouts.column(*self.plots))
 
 
-def strptime(text, pattern):
-    """
-    Accepts a string and strptime format,.
-    Returns a datetime object representing the date.
-    datetime.strptime raises ValueError if pattern is not found in text.
-    """
-    size = len(pattern.split())
-    words = text.split()[:size]
-    text = " ".join(words)
-    timestamp = datetime.strptime(text, pattern)
-    return timestamp
-
-
 def missing_time_data(timestamps, data, *, default=0):
     """
     Fill in missing times with a default value, usually zero.
