@@ -4,14 +4,13 @@
 """Provide tools for plotting time based line graphs."""
 
 # from collections import defaultdict, deque
-# from datetime import datetime, timedelta
 # from pathlib import Path
 
 # import gzip
 # import os
 # import re
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from functools import lru_cache
 import sys
 
