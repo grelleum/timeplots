@@ -59,7 +59,6 @@ class LogTime(object):
         words = text.split(self.delimiter)
         words = words[: self.pattern_size]
         text = " ".join(words)
-        # print("***", text, flush=True, end="\t")
         timestamp = self._strptime(text)
         return timestamp
 
@@ -112,10 +111,12 @@ def main():
         for expression, times in buckets.items():
             c = Counter(times)
             times, data = zip(*sorted(c.items()))
+            times, data = zip(*timeplots.missing_time_data(times, data))
             plotter.add_line(expression, times, data)
     else:
         c = Counter(match_any_lines(logtime, lines))
         times, data = zip(*sorted(c.items()))
+        times, data = zip(*timeplots.missing_time_data(times, data))
         plotter.add_line("values", times, data)
 
     plotter.render(filename="testplots.html", title="testplots")
