@@ -54,7 +54,7 @@ def main():
     args = docopt(__doc__)
     print(args)
 
-    logtime = timplots.LogTime(
+    logtime = timeplots.LogTime(
         pattern=args.get("<strptime>"),
         hours=int(args.get("--hours")),
         minutes=int(args.get("--minutes")),
