@@ -9,14 +9,12 @@ Usage:
   logplot.py --version
 
 Options:
-  -h --help                Show this screen.
-  --version                Show version.
-  -e=<regex>               Pattern to match.
-  --hours=<hours>          Hours [default: 0].
-  --minutes=<minutes>      Minutes [default: 0].
-  --seconds=<seconds>      Seconds [default: 0].
-  -o, --output=<filename>  Output filename [default: logplot.html].
-  -t, --title=<title>      Title for plot [default: Events over Time].
+  -h --help                 Show this screen.
+  --version                 Show version.
+  -e=<regex>                Pattern to match.
+  --period=<period>[suffix] Sample period in seconds with option suffix [s, m, h, d].
+  -o, --output=<filename>   Output filename [default: logplot.html].
+  -t, --title=<title>       Title for plot [default: Events over Time].
 """
 
 from collections import Counter, defaultdict, deque
@@ -52,24 +50,32 @@ def match_regex(logtime, lines, expressions):
                 yield expression, get_timestamp(logtime, line)
 
 
+def get_period(period):
+    if not period:
+        return "events", {}
+    if period.isnumeric():
+        value, units = period, "s"
+    else:
+        value, units = period[:-1], period[-1]
+    units = {"s": "seconds", "m": "minutes", "h": "hours", "d": "days"}.get(units)
+    if not units or not value.isnumeric():
+        raise ValueError("Invalid period specified.")
+    return f"events every {value} {units}", {units: int(value)}
+
+
 def main():
     args = docopt(__doc__)
     print(args)
 
-    title = title=args.get("--title")
-    output_filename = title=args.get("--output")
+    title = title = args.get("--title")
+    output_filename = title = args.get("--output")
+    units, period = get_period(args.get("--period"))
 
-    logtime = timeplots.LogTime(
-        pattern=args.get("<strptime>"),
-        hours=int(args.get("--hours")),
-        minutes=int(args.get("--minutes")),
-        seconds=int(args.get("--seconds")),
-    )
-
+    logtime = timeplots.LogTime(pattern=args.get("<strptime>"), **period)
     lines = (line for line in FileInput(args.get("<filename>")))
 
     plotter = timeplots.Plotter(width=1400)
-    plotter.new_plot(title=title, "stuff/day")
+    plotter.new_plot(title=title, units=units)
 
     if args.get("-e"):
         buckets = defaultdict(deque)
