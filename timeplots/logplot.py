@@ -9,12 +9,14 @@ Usage:
   logplot.py --version
 
 Options:
-  -h --help            Show this screen.
-  --version            Show version.
-  -e=<regex>           Pattern to match.
-  --hours=<hours>      Hours [default: 0].
-  --minutes=<minutes>  Minutes [default: 0].
-  --seconds=<seconds>  Seconds [default: 0].
+  -h --help                Show this screen.
+  --version                Show version.
+  -e=<regex>               Pattern to match.
+  --hours=<hours>          Hours [default: 0].
+  --minutes=<minutes>      Minutes [default: 0].
+  --seconds=<seconds>      Seconds [default: 0].
+  -o, --output=<filename>  Output filename [default: logplot.html].
+  -t, --title=<title>      Title for plot [default: Events over Time].
 """
 
 from collections import Counter, defaultdict, deque
@@ -54,6 +56,9 @@ def main():
     args = docopt(__doc__)
     print(args)
 
+    title = title=args.get("--title")
+    output_filename = title=args.get("--output")
+
     logtime = timeplots.LogTime(
         pattern=args.get("<strptime>"),
         hours=int(args.get("--hours")),
@@ -64,7 +69,7 @@ def main():
     lines = (line for line in FileInput(args.get("<filename>")))
 
     plotter = timeplots.Plotter(width=1400)
-    plotter.new_plot("Stuff happening", "stuff/day")
+    plotter.new_plot(title=title, "stuff/day")
 
     if args.get("-e"):
         buckets = defaultdict(deque)
@@ -81,7 +86,7 @@ def main():
         times, data = zip(*timeplots.missing_time_data(times, data))
         plotter.add_line("values", times, data)
 
-    plotter.render(filename="testplots.html", title="testplots")
+    plotter.render(filename=output_filename, title=title)
 
 
 if __name__ == "__main__":
