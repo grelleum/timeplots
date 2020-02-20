@@ -127,6 +127,10 @@ class LogTime(object):
 
     @lru_cache()
     def _strptime(self, text):
+        """
+        Private function to get strptime from text,
+        and truncate to specific period if self.delta is set.
+        """
         timestamp = datetime.strptime(text, self.pattern)
         if self.delta:
             big_delta = timestamp - datetime.min
@@ -137,6 +141,11 @@ class LogTime(object):
 
     @lru_cache()
     def strptime(self, text):
+        """
+        Return a datetime object from begining of string object.
+        Will ignore end portion of string that does not contain
+        the date/time information.
+        """
         words = text.split(self.delimiter)
         words = words[: self.pattern_size]
         text = " ".join(words)
