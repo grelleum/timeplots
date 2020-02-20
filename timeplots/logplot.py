@@ -29,70 +29,34 @@ from docopt import docopt
 import timeplots
 
 
-class LogTime(object):
-    def __init__(self, *, pattern, delimiter=" ", hours=0, minutes=0, seconds=0):
-        """
-        Creates an object that produces datetime objects.
-        strptime: str: strptime pattern for decoding embedded timestamp.
-        hours: int: used to group timestamp by hour.
-        minutes: int: used to group timestamp by minutes.
-        seconds: int: used to group timestamp by seconds.
-        """
-        self.pattern = pattern
-        self.pattern_size = len(pattern.split())
-        self.delimiter = delimiter
-        delta = timedelta(hours=hours, minutes=minutes, seconds=seconds)
-        self.delta = int(delta.total_seconds())
-
-    @lru_cache()
-    def _strptime(self, text):
-        timestamp = datetime.strptime(text, self.pattern)
-        if self.delta:
-            big_delta = timestamp - datetime.min
-            total_seconds = int(big_delta.total_seconds())
-            mod = timedelta(seconds=total_seconds % self.delta)
-            timestamp = timestamp - mod
-        return timestamp
-
-    @lru_cache()
-    def strptime(self, text):
-        words = text.split(self.delimiter)
-        words = words[: self.pattern_size]
-        text = " ".join(words)
-        timestamp = self._strptime(text)
+def get_timestamp(logtime, text):
+    try:
+        timestamp = logtime.strptime(text)
+    except ValueError as e:
+        print(repr(e), file=sys.stderr)
+    else:
+        print(">>>", timestamp, end="\r", flush=True)
         return timestamp
 
 
-def match_any_lines(logtime, lines):
+def match_all(logtime, lines):
     for line in lines:
-        try:
-            timestamp = logtime.strptime(line)
-        except ValueError as e:
-            print(repr(e), file=sys.stderr)
-        else:
-            print(">>>", timestamp, end="\r", flush=True)
-            yield timestamp
+        yield get_timestamp(logtime, line)
 
 
-def match_lines(logtime, lines, expressions):
+def match_regex(logtime, lines, expressions):
     expressions = [(exp, re.compile(exp)) for exp in expressions]
     for line in lines:
         for expression, regex in expressions:
             if regex.search(line):
-                try:
-                    timestamp = logtime.strptime(line)
-                except ValueError as e:
-                    print(repr(e), file=sys.stderr)
-                else:
-                    print(">>>", timestamp, end="\r", flush=True)
-                    yield expression, timestamp
+                yield expression, get_timestamp(logtime, line)
 
 
 def main():
     args = docopt(__doc__)
     print(args)
 
-    logtime = LogTime(
+    logtime = timplots.LogTime(
         pattern=args.get("<strptime>"),
         hours=int(args.get("--hours")),
         minutes=int(args.get("--minutes")),
@@ -106,7 +70,7 @@ def main():
 
     if args.get("-e"):
         buckets = defaultdict(deque)
-        for expression, timestamp in match_lines(logtime, lines, args.get("-e")):
+        for expression, timestamp in match_regex(logtime, lines, args.get("-e")):
             buckets[expression].append(timestamp)
         for expression, times in buckets.items():
             c = Counter(times)
@@ -114,7 +78,7 @@ def main():
             times, data = zip(*timeplots.missing_time_data(times, data))
             plotter.add_line(expression, times, data)
     else:
-        c = Counter(match_any_lines(logtime, lines))
+        c = Counter(match_all(logtime, lines))
         times, data = zip(*sorted(c.items()))
         times, data = zip(*timeplots.missing_time_data(times, data))
         plotter.add_line("values", times, data)

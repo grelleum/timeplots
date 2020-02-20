@@ -110,6 +110,40 @@ class Plotter(object):
             plotting.save(layouts.column(*self.plots))
 
 
+class LogTime(object):
+    def __init__(self, *, pattern, delimiter=" ", hours=0, minutes=0, seconds=0):
+        """
+        Creates an object that produces datetime objects.
+        strptime: str: strptime pattern for decoding embedded timestamp.
+        hours: int: used to group timestamp by hour.
+        minutes: int: used to group timestamp by minutes.
+        seconds: int: used to group timestamp by seconds.
+        """
+        self.pattern = pattern
+        self.pattern_size = len(pattern.split())
+        self.delimiter = delimiter
+        delta = timedelta(hours=hours, minutes=minutes, seconds=seconds)
+        self.delta = int(delta.total_seconds())
+
+    @lru_cache()
+    def _strptime(self, text):
+        timestamp = datetime.strptime(text, self.pattern)
+        if self.delta:
+            big_delta = timestamp - datetime.min
+            total_seconds = int(big_delta.total_seconds())
+            mod = timedelta(seconds=total_seconds % self.delta)
+            timestamp = timestamp - mod
+        return timestamp
+
+    @lru_cache()
+    def strptime(self, text):
+        words = text.split(self.delimiter)
+        words = words[: self.pattern_size]
+        text = " ".join(words)
+        timestamp = self._strptime(text)
+        return timestamp
+
+
 def missing_time_data(timestamps, data, *, default=0):
     """
     Fill in missing times with a default value, usually zero.
