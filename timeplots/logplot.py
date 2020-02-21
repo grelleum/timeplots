@@ -59,7 +59,10 @@ def get_interval(interval):
     units = {"s": "seconds", "m": "minutes", "h": "hours", "d": "days"}.get(units)
     if not units or not value.isnumeric():
         raise ValueError("Invalid interval specified.")
-    return f"events every {value} {units}", {units: int(value)}
+    units, interval = f"events every {value} {units}", {units: int(value)}
+    if value == "1":
+        units = units[:-1]
+    return units, interval
 
 
 def main():
