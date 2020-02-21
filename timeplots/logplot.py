@@ -4,7 +4,7 @@
 logplot.py
 
 Usage:
-  logplot.py [options] [-e=<regex>...] <strptime> [<filename>...]
+  logplot.py [options] [-e=<regex>...] <dateformat> [<filename>...]
   logplot.py -h | --help
   logplot.py --version
 
@@ -70,7 +70,7 @@ def main():
     title = title[:-5] if title.endswith(".html") else title
     units, interval = get_interval(args.get("--interval"))
 
-    logtime = timeplots.LogTime(pattern=args.get("<strptime>"), **interval)
+    logtime = timeplots.LogTime(pattern=args.get("<dateformat>"), **interval)
     lines = (line for line in FileInput(args.get("<filename>")))
 
     plotter = timeplots.Plotter(width=1400)
