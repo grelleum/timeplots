@@ -9,12 +9,12 @@ Usage:
   logplot.py --version
 
 Options:
-  -h --help                 Show this screen.
-  --version                 Show version.
-  -e=<regex>                Pattern to match.
-  --period=<period>[suffix] Sample period in seconds with option suffix [s, m, h, d].
-  -o, --output=<filename>   Output filename [default: logplot.html].
-  -t, --title=<title>       Title for plot [default: Events over Time].
+  -h --help                     Show this screen.
+  --version                     Show version.
+  -e=<regex>                    Pattern to match.
+  --interval=<interval>[suffix] Sample interval in seconds with option suffix [s, m, h, d].
+  -o, --output=<filename>       Output filename [default: logplot.html].
+  -t, --title=<title>           Title for plot [default: Events over Time].
 """
 
 from collections import Counter, defaultdict, deque
@@ -50,16 +50,16 @@ def match_regex(logtime, lines, expressions):
                 yield expression, get_timestamp(logtime, line)
 
 
-def get_period(period):
-    if not period:
+def get_interval(interval):
+    if not interval:
         return "events", {}
-    if period.isnumeric():
-        value, units = period, "s"
+    if interval.isnumeric():
+        value, units = interval, "s"
     else:
-        value, units = period[:-1], period[-1]
+        value, units = interval[:-1], interval[-1]
     units = {"s": "seconds", "m": "minutes", "h": "hours", "d": "days"}.get(units)
     if not units or not value.isnumeric():
-        raise ValueError("Invalid period specified.")
+        raise ValueError("Invalid interval specified.")
     return f"events every {value} {units}", {units: int(value)}
 
 
@@ -69,9 +69,10 @@ def main():
 
     title = title = args.get("--title")
     output_filename = title = args.get("--output")
-    units, period = get_period(args.get("--period"))
+    title = title[:-5] if title.endswith(".html") else title
+    units, interval = get_interval(args.get("--interval"))
 
-    logtime = timeplots.LogTime(pattern=args.get("<strptime>"), **period)
+    logtime = timeplots.LogTime(pattern=args.get("<strptime>"), **interval)
     lines = (line for line in FileInput(args.get("<filename>")))
 
     plotter = timeplots.Plotter(width=1400)
