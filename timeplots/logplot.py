@@ -69,9 +69,8 @@ def main():
     args = docopt(__doc__)
     print(args)
 
-    title = title = args.get("--title")
-    output_filename = title = args.get("--output")
-    title = title[:-5] if title.endswith(".html") else title
+    title = args.get("--title")
+    output_filename = args.get("--output")
     units, interval = get_interval(args.get("--interval"))
 
     logtime = timeplots.LogTime(pattern=args.get("<dateformat>"), **interval)
