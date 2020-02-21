@@ -12,7 +12,8 @@ Options:
   -h --help                     Show this screen.
   --version                     Show version.
   -e=<regex>                    Pattern to match.
-  --interval=<interval>[suffix] Sample interval in seconds with option suffix [s, m, h, d].
+  --interval=<interval>[m|h|d]  Sample interval in seconds with optional
+                                suffix to denote minutes, hours, or days.
   -o, --output=<filename>       Output filename [default: logplot.html].
   -t, --title=<title>           Title for plot [default: Events over Time].
 """
