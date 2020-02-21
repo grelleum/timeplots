@@ -53,10 +53,8 @@ def match_regex(logtime, lines, expressions):
 def get_interval(interval):
     if not interval:
         return "events", {}
-    if interval.isnumeric():
-        value, units = interval, "s"
-    else:
-        value, units = interval[:-1], interval[-1]
+    interval = f"{interval}s" if interval.isnumeric() else interval
+    value, units = interval[:-1], interval[-1]
     units = {"s": "seconds", "m": "minutes", "h": "hours", "d": "days"}.get(units)
     if not units or not value.isnumeric():
         raise ValueError("Invalid interval specified.")
