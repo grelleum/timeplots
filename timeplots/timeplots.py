@@ -83,8 +83,7 @@ class Plotter(object):
             error = "Error: You must create a 'new_plot' before adding a line."
             print(error, file=sys.stderr)
 
-        if color is None:
-            color = self.colors.pop()
+        color = color or self.colors.pop()
 
         self.active_plot.line(
             timestamps, data, line_width=1, color=color, name=name, legend_label=name
