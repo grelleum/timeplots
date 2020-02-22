@@ -28,12 +28,10 @@ class Plotter(object):
     """
 
     x_range = plotting.Figure.x_range
-    width = 1400
-    height = 400
 
-    def __init__(self, width=None, height=None):
-        self.width = self.width if width is None else width
-        self.height = self.height if height is None else height
+    def __init__(self, width=1400, height=400):
+        self.width = width
+        self.height = height
         self.plots = []
         self.active_plot = None
 
