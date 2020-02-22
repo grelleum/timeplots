@@ -109,6 +109,8 @@ class Plotter(object):
             plotting.show(layouts.column(*self.plots))
 
         else:
+            if not filename.endswith(".html"):
+                filename = f"{filename}.html"
             plotting.output_file(filename, title=title, mode="inline")
             plotting.save(layouts.column(*self.plots))
 
