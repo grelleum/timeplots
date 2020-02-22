@@ -27,9 +27,9 @@ class Plotter(object):
 
     """
 
-    x_range = plotting.Figure.x_range
+    x_range = plotting.figure().x_range
 
-    def __init__(self, width=1400, height=400):
+    def __init__(self, *, width=1400, height=400):
         self.width = width
         self.height = height
         self.plots = []
@@ -49,6 +49,7 @@ class Plotter(object):
 
         plot.plot_width = self.width
         plot.plot_height = self.height
+        plot.x_range = self.x_range
 
         datetime_tick_formats = {
             key: ["%a %b %d %H:%M:%S"]
