@@ -11,7 +11,7 @@ Usage:
 Options:
   -h --help                         Show this screen.
   --version                         Show version.
-  -e=<regex>                        Pattern to match.
+  -e=<regex>                        Pattern to match in file.
   -i, --interval=<interval>[m|h|d]  Sample interval in seconds with optional
                                     suffix to denote minutes, hours, or days.
   -o, --output=<filename>           Output filename [default: logplot.html].
@@ -69,6 +69,7 @@ def main():
     args = docopt(__doc__)
     print(args)
 
+    expressions = args.get("-e")
     title = args.get("--title")
     output_filename = args.get("--output")
     units, interval = get_interval(args.get("--interval"))
@@ -78,9 +79,12 @@ def main():
     plotter = timeplots.Plotter(width=1400)
     plotter.new_plot(title=title, units=units)
 
-    if args.get("-e"):
-        buckets = defaultdict(deque)
-        for expression, timestamp in match_regex(logtime, lines, args.get("-e")):
+    if expressions:
+        # Prefer creating buckets over defaultdict:
+        # - Predefined buckets assign colors based on order of command line args.
+        # - With defaultdict, colors are assigned based on order in logs.
+        buckets = {exp: deque() for exp in expressions}
+        for expression, timestamp in match_regex(logtime, lines, expressions):
             buckets[expression].append(timestamp)
         for expression, times in buckets.items():
             c = Counter(times)
