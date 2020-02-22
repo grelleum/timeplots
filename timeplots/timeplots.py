@@ -111,16 +111,16 @@ class Plotter(object):
 
 
 class LogTime(object):
-    def __init__(self, *, pattern, delimiter=" ", hours=0, minutes=0, seconds=0):
+    def __init__(self, *, date_format, delimiter=" ", hours=0, minutes=0, seconds=0):
         """
         Creates an object that produces datetime objects.
-        strptime: str: strptime pattern for decoding embedded timestamp.
+        date_format: str: strptime format for decoding embedded timestamp.
         hours: int: used to group timestamp by hour.
         minutes: int: used to group timestamp by minutes.
         seconds: int: used to group timestamp by seconds.
         """
-        self.pattern = pattern
-        self.pattern_size = len(pattern.split())
+        self.date_format = date_format
+        self.date_format_length = len(date_format.split())
         self.delimiter = delimiter
         delta = timedelta(hours=hours, minutes=minutes, seconds=seconds)
         self.delta = int(delta.total_seconds())
@@ -131,7 +131,7 @@ class LogTime(object):
         Private function to get strptime from text,
         and truncate to specific period if self.delta is set.
         """
-        timestamp = datetime.strptime(text, self.pattern)
+        timestamp = datetime.strptime(text, self.date_format)
         if self.delta:
             big_delta = timestamp - datetime.min
             total_seconds = int(big_delta.total_seconds())
@@ -147,7 +147,7 @@ class LogTime(object):
         the date/time information.
         """
         words = text.split(self.delimiter)
-        words = words[: self.pattern_size]
+        words = words[: self.date_format_length]
         text = " ".join(words)
         timestamp = self._strptime(text)
         return timestamp

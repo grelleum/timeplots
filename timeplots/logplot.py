@@ -74,7 +74,7 @@ def main():
     units, interval = get_interval(args.get("--interval"))
     lines = (line for line in FileInput(args.get("<filename>")))
 
-    logtime = timeplots.LogTime(pattern=args.get("<dateformat>"), **interval)
+    logtime = timeplots.LogTime(date_format=args.get("<dateformat>"), **interval)
     plotter = timeplots.Plotter(width=1400)
     plotter.new_plot(title=title, units=units)
 
