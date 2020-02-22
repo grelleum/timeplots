@@ -96,6 +96,11 @@ class Plotter(object):
         self.active_plot.legend.click_policy = "hide"  # other optins: mute
         self.active_plot.legend.location = "top_left"
 
+    def add_html(self, html):
+        """Add html to the page."""
+        header = models.widgets.Div(text=html)
+        self.plots.append(header)
+
     def render(self, *, filename=None, title=""):
         """Display the plots or write to file."""
 
