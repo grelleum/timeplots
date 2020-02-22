@@ -105,7 +105,6 @@ class Plotter(object):
 
         else:
             plotting.output_file(filename, title=title, mode="inline")
-            print(f"Writing file '{filename}'")
             plotting.save(layouts.column(*self.plots))
 
 
