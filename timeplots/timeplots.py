@@ -70,6 +70,8 @@ class Plotter(object):
         plot.add_tools(models.BoxZoomTool())
         plot.add_tools(models.HelpTool())
         plot.add_tools(models.PanTool())
+        plot.add_tools(models.UndoTool())
+        plot.add_tools(models.RedoTool())
         plot.add_tools(models.ResetTool())
         plot.add_tools(models.SaveTool())
         plot.add_tools(models.WheelZoomTool(dimensions="width"))
