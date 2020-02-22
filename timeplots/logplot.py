@@ -97,6 +97,7 @@ def main():
         times, data = zip(*timeplots.missing_time_data(times, data))
         plotter.add_line("values", times, data)
 
+    print(f"Saving to file: '{output_filename}'")
     plotter.render(filename=output_filename, title=title)
 
 
