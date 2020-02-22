@@ -95,7 +95,7 @@ class Plotter(object):
         self.active_plot.legend.click_policy = "hide"  # other optins: mute
         self.active_plot.legend.location = "top_left"
 
-    def render(self, *, filename=None, title=None):
+    def render(self, *, filename=None, title=""):
         """Display the plots or write to file."""
 
         if filename is None:
@@ -103,7 +103,6 @@ class Plotter(object):
             plotting.show(layouts.column(*self.plots))
 
         else:
-            title = "" if title is None else title
             plotting.output_file(filename, title=title, mode="inline")
             print(f"Writing file '{filename}'")
             plotting.save(layouts.column(*self.plots))
