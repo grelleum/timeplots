@@ -115,7 +115,7 @@ class Plotter(object):
             plotting.save(layouts.column(*self.plots))
 
 
-class LogTime(object):
+class TimeParser(object):
     def __init__(self, *, date_format, delimiter=" ", hours=0, minutes=0, seconds=0):
         """
         Creates an object that produces datetime objects.
