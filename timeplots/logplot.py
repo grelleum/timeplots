@@ -4,7 +4,7 @@
 logplot.py
 
 Usage:
-  logplot.py [options] [-e=<regex>...] <dateformat> [<filename>...]
+  logplot.py [options] [-e=<regex>...] [<filename>...]
   logplot.py -h | --help
   logplot.py --version
 
@@ -12,6 +12,7 @@ Options:
   -h --help                         Show this screen.
   --version                         Show version.
   -e=<regex>                        Pattern to match in file.
+  -d, --dateformat=<dateformat>     Date format in strptime format.
   -i, --interval=<interval>[m|h|d]  Sample interval in seconds with optional
                                     suffix to denote minutes, hours, or days.
   -o, --output=<filename>           Output filename [default: logplot.html].

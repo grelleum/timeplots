@@ -116,7 +116,9 @@ class Plotter(object):
 
 
 class TimeParser(object):
-    def __init__(self, *, date_format, delimiter=" ", hours=0, minutes=0, seconds=0):
+    def __init__(
+        self, *, date_format=None, delimiter=" ", hours=0, minutes=0, seconds=0
+    ):
         """
         Creates an object that produces datetime objects.
         date_format: str: strptime format for decoding embedded timestamp.
@@ -125,8 +127,8 @@ class TimeParser(object):
         seconds: int: used to group timestamp by seconds.
         """
         self.date_format = date_format
-        self.date_format_length = len(date_format.split())
         self.delimiter = delimiter
+        self.format_length = len(date_format.split(delimiter)) if date_format else None
         delta = timedelta(hours=hours, minutes=minutes, seconds=seconds)
         self.delta = int(delta.total_seconds())
 
@@ -151,11 +153,42 @@ class TimeParser(object):
         Will ignore end portion of string that does not contain
         the date/time information.
         """
+        if not self.date_format:
+            self.identify_format(text)
+
         words = text.split(self.delimiter)
-        words = words[: self.date_format_length]
-        text = " ".join(words)
+        words = words[: self.format_length]
+        text = self.delimiter.join(words)
         timestamp = self._strptime(text)
         return timestamp
+
+    def identify_format(self, text):
+        known_formats = [
+            ("%Y-%m-%d %H:%M:%S", ",", 1),  # scmlog
+            ("*%b %d %H:%M:%S.%f", ":", 3),  # Cisco
+        ]
+        for date_format, delimiter, format_length in known_formats:
+            print(repr((date_format, delimiter, format_length)))
+            words = text.split(delimiter)[:format_length]
+            remainder = delimiter.join(words)
+            try:
+                datetime.strptime(remainder, date_format)
+            except ValueError:
+                continue
+            else:
+                self.date_format = date_format
+                self.delimiter = delimiter
+                self.format_length = format_length
+
+    def __repr__(self):
+        return (
+            f"<{self.__class__.__name__}: ["
+            f"date_format: {repr(self.date_format)}, "
+            f"delimiter: {repr(self.delimiter)}, "
+            f"format_length: {repr(self.format_length)}, "
+            f"delta: {repr(self.delta)}, "
+            "]>"
+        )
 
 
 def missing_time_data(timestamps, data, *, default=0):
