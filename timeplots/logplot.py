@@ -68,7 +68,6 @@ def get_interval(interval):
 
 def main():
     args = docopt(__doc__)
-    print(args)
 
     expressions = args.get("-e")
     title = args.get("--title")
