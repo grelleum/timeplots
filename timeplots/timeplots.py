@@ -165,10 +165,12 @@ class TimeParser(object):
     def identify_format(self, text):
         known_formats = [
             ("%Y-%m-%d %H:%M:%S", ",", 1),  # scmlog
-            ("*%b %d %H:%M:%S.%f", ":", 3),  # Cisco
+            ("*%b %d %H:%M:%S.%f", ":", 3),  # cisco
+            ("%b %d %H:%M:%S", " ", 3),  # steelhead
+            ("%a %b %d %H:%M:%S %Y", " ", 5),  # wrt
         ]
         for date_format, delimiter, format_length in known_formats:
-            print(repr((date_format, delimiter, format_length)))
+            print(repr((date_format, delimiter, format_length)), end="\r", flush=True)
             words = text.split(delimiter)[:format_length]
             remainder = delimiter.join(words)
             try:
