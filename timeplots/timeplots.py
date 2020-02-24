@@ -170,7 +170,6 @@ class TimeParser(object):
             ("%a %b %d %H:%M:%S %Y", " ", 5),  # wrt
         ]
         for date_format, delimiter, format_length in known_formats:
-            print(repr((date_format, delimiter, format_length)), end="\r", flush=True)
             words = text.split(delimiter)[:format_length]
             remainder = delimiter.join(words)
             try:
