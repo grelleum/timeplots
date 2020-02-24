@@ -30,7 +30,8 @@ Bokeh wrapper for creating time based line plots.
 Features
 --------
 
-* TODO
+timeplots contains some tools for creating multiline plots where the x-axis are datetime values.
+
 
 Credits
 -------
