@@ -4,6 +4,6 @@
 
 __author__ = """Greg Mueller"""
 __email__ = "greg@grelleum.com"
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 from .timeplots import Plotter, TimeParser, missing_time_data
