@@ -156,21 +156,25 @@ class TimeParser(object):
         if not self.date_format:
             self.identify_format(text)
 
-        words = text.split(self.delimiter)
+        words = [word.strip() for word in text.split(self.delimiter) if word]
         words = words[: self.format_length]
+
         text = self.delimiter.join(words)
         timestamp = self._strptime(text)
         return timestamp
 
     def identify_format(self, text):
+
         known_formats = [
             ("%Y-%m-%d %H:%M:%S", ",", 1),  # scmlog
             ("*%b %d %H:%M:%S.%f", ":", 3),  # cisco
             ("%b %d %H:%M:%S", " ", 3),  # steelhead
             ("%a %b %d %H:%M:%S %Y", " ", 5),  # wrt
         ]
+
         for date_format, delimiter, format_length in known_formats:
-            words = text.split(delimiter)[:format_length]
+            words = [word.strip() for word in text.split(delimiter) if word]
+            words = words[:format_length]
             remainder = delimiter.join(words)
             try:
                 datetime.strptime(remainder, date_format)
