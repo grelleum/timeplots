@@ -165,6 +165,9 @@ class TimeParser(object):
 
     def identify_format(self, text):
 
+        # Need to rework this as split(" ") is not the same as split()
+        # as the former will create a " " element from a double space.
+        # Perhaps set delimeter as None and check if is None.
         known_formats = [
             ("%Y-%m-%d %H:%M:%S", ",", 1),  # scmlog
             ("*%b %d %H:%M:%S.%f", ":", 3),  # cisco
