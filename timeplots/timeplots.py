@@ -44,7 +44,7 @@ class Plotter(object):
         plot = plotting.figure(title=title, tools=[])
         self.active_plot = plot
         self.plots.append(plot)
-        self.colors = list(reversed(palettes.colorblind["Colorblind"][8]))
+        self.colors = list(colors)
         self.units = units
 
         plot.plot_width = self.width
@@ -256,3 +256,40 @@ def missing_time_data(timestamps, data, *, default=0):
         previous = time
         expected = previous + minimum_delta
         upper_limit = previous + minimum_delta * 1.5
+
+
+colors = [
+    "#0000FF",
+    "#00FF00",
+    "#FF0000",
+    "#FF00FF",
+    "#00FFFF",
+    "#00007F",
+    "#007F00",
+    "#7F0000",
+    "#7F7F7F",
+    "#7F007F",
+    "#007F7F",
+    "#7F7F00",
+    "#0000BF",
+    "#00BF00",
+    "#BF0000",
+    "#BFBFBF",
+    "#BF00BF",
+    "#00BFBF",
+    "#BFBF00",
+    "#0000E0",
+    "#00E000",
+    "#E00000",
+    "#E0E0E0",
+    "#E000E0",
+    "#00E0E0",
+    "#E0E000",
+    "#0000A0",
+    "#00A000",
+    "#A00000",
+    "#A0A0A0",
+    "#A000A0",
+    "#00A0A0",
+    "#A0A000",
+]
