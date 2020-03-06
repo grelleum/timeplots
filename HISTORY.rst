@@ -2,6 +2,13 @@
 History
 =======
 
+0.1.3 (2020-03-06)
+------------------
+
+* line_width is configurable when creating a plot and when adding a line.
+* hover tool includes name of line.
+
+
 0.1.2 (2020-03-03)
 ------------------
 
