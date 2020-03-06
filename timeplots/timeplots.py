@@ -61,9 +61,13 @@ class Plotter(object):
         plot.yaxis.formatter = models.NumeralTickFormatter(format="0a")
 
         hover = models.HoverTool(
+            # mode = vline would be nice to use,
+            # but then separate hovers block each when lines are too close.
+            # Would like a single hover box with time once, and a value per line
+            # perhaps this will help acheive that:
+            # https://stackoverflow.com/questions/29435200/bokeh-plotting-enable-tooltips-for-only-some-glyphs
             mode="mouse",  # other optins: vline
             line_policy="nearest",  # other optins: prev, next, nearest, interp, none
-            # tooltips=[("Time", "@x{%a %m/%d %H:%M:%S}"), (self.units, "@y{0,0}")],
             tooltips=[
                 ("Name", "$name"),
                 ("Time", "@x{%a %m/%d %H:%M:%S}"),
