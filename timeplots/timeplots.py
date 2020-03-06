@@ -29,14 +29,14 @@ class Plotter(object):
 
     x_range = plotting.figure().x_range
 
-    def __init__(self, *, width=1400, height=400, line_width=1):
+    def __init__(self, *, width=1400, height=400, line_width=2):
         self.width = width
         self.height = height
         self.line_width = line_width
         self.plots = []
         self.active_plot = None
 
-    def new_plot(self, title, units):
+    def new_plot(self, title, units, line_width=None):
         """
         Creates a blank line plot for with timestamps on the x-axis and
         a line for each data series on the y-axis.
@@ -47,6 +47,7 @@ class Plotter(object):
         self.plots.append(plot)
         self.colors = list(colors)
         self.units = units
+        self.line_width = line_width or self.line_width
 
         plot.plot_width = self.width
         plot.plot_height = self.height
