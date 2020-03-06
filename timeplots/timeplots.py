@@ -63,7 +63,12 @@ class Plotter(object):
         hover = models.HoverTool(
             mode="mouse",  # other optins: vline
             line_policy="nearest",  # other optins: prev, next, nearest, interp, none
-            tooltips=[("Time", "@x{%a %m/%d %H:%M:%S}"), (self.units, "@y{0,0}")],
+            # tooltips=[("Time", "@x{%a %m/%d %H:%M:%S}"), (self.units, "@y{0,0}")],
+            tooltips=[
+                ("Name", "$name"),
+                ("Time", "@x{%a %m/%d %H:%M:%S}"),
+                (self.units, "@y{0,0}"),
+            ],
             formatters={"x": "datetime"},
         )
         plot.add_tools(hover)
