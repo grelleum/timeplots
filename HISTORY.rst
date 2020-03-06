@@ -6,6 +6,7 @@ History
 ------------------
 
 * line_width is configurable when creating a plot and when adding a line.
+* line_width defaults to 2.
 * hover tool includes name of line.
 
 
