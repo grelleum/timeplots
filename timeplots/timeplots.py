@@ -29,9 +29,10 @@ class Plotter(object):
 
     x_range = plotting.figure().x_range
 
-    def __init__(self, *, width=1400, height=400):
+    def __init__(self, *, width=1400, height=400, line_width=1):
         self.width = width
         self.height = height
+        self.line_width = line_width
         self.plots = []
         self.active_plot = None
 
@@ -88,7 +89,7 @@ class Plotter(object):
         plot.add_tools(models.ResetTool())
         plot.add_tools(models.SaveTool())
 
-    def add_line(self, name, timestamps, data, color=None):
+    def add_line(self, name, timestamps, data, color=None, line_width=None):
         """Add a line to the active plot."""
 
         if self.active_plot is None:
@@ -98,7 +99,12 @@ class Plotter(object):
         color = color or self.colors.pop()
 
         self.active_plot.line(
-            timestamps, data, line_width=1, color=color, name=name, legend_label=name
+            timestamps,
+            data,
+            line_width=line_width or self.line_width,
+            color=color,
+            name=name,
+            legend_label=name,
         )
 
         # Legend click policy must be defined after a legend is added.
