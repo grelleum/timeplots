@@ -145,7 +145,7 @@ class TimeParser(object):
         self.date_format = date_format
         self.delimiter = delimiter
         self.format_length = len(date_format.split(delimiter)) if date_format else None
-        delta = timedelta(hours=hours, minutes=minutes, seconds=seconds)
+        delta = timedelta(days=days, hours=hours, minutes=minutes, seconds=seconds)
         self.delta = int(delta.total_seconds())
 
     @lru_cache()
