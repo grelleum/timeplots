@@ -243,9 +243,12 @@ def missing_time_data(timestamps, data, *, default=0):
     """
 
     # Find the lowest period between timestamps.
-    minimum_delta = min(
-        after - before for after, before in zip(timestamps[1:], timestamps)
-    )
+    if len(timestamps) > 1:
+        minimum_delta = min(
+            after - before for after, before in zip(timestamps[1:], timestamps)
+        )
+    else:
+        minimum_delta = timedelta(0)
 
     # Make generators from the input data
     timestamps = (t for t in timestamps)
