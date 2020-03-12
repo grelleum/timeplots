@@ -133,7 +133,7 @@ class Plotter(object):
 
 class TimeParser(object):
     def __init__(
-        self, *, date_format=None, delimiter=" ", hours=0, minutes=0, seconds=0
+        self, *, date_format=None, delimiter=" ", days=0, hours=0, minutes=0, seconds=0
     ):
         """
         Creates an object that produces datetime objects.
