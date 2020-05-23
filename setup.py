@@ -12,7 +12,8 @@ with open("README.rst") as readme_file:
 with open("HISTORY.rst") as history_file:
     history = history_file.read()
 
-requirements = ["bokeh"]
+# install_requires = ["bokeh"]
+# requirements = ["bokeh"]
 
 setup_requirements = ["pytest-runner"]
 
@@ -33,7 +34,8 @@ setup(
         "Programming Language :: Python :: 3.8",
     ],
     description="Bokeh wrapper for creating time based line plots.",
-    install_requires=requirements,
+    # install_requires=requirements,
+    install_requires=["bokeh"],
     license="MIT license",
     long_description=readme + "\n\n" + history,
     include_package_data=True,
