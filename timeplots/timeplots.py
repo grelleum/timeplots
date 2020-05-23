@@ -75,7 +75,7 @@ class Plotter(object):
                 ("Time", "@x{%a %m/%d %H:%M:%S}"),
                 (self.units, "@y{0,0}"),
             ],
-            formatters={"x": "datetime"},
+            formatters={"x": "datetime", "Time": "datetime", "@x": "datetime"},
         )
         plot.add_tools(hover)
 
