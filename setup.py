@@ -1,10 +1,12 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-"""The setup script."""
+"""
+Timeplots: setup script.
+"""
 
 from setuptools import setup, find_packages
 
-from timeplots import __version__
+version = "0.2.0"
 
 with open("README.rst") as readme_file:
     readme = readme_file.read()
@@ -46,6 +48,6 @@ setup(
     test_suite="tests",
     tests_require=test_requirements,
     url="https://github.com/grelleum/timeplots",
-    version=__version__,
+    version=version,
     zip_safe=False,
 )

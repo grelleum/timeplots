@@ -21,6 +21,7 @@ timeplots
 
 Bokeh wrapper for creating time based line plots.
 
+version = "0.2.0"
 
 * Free software: MIT license
 * Documentation: https://timeplots.readthedocs.io.
@@ -30,12 +31,3 @@ Features
 --------
 
 timeplots contains some tools for creating multiline plots where the x-axis are datetime values.
-
-
-Credits
--------
-
-This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
-
-.. _Cookiecutter: https://github.com/audreyr/cookiecutter
-.. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage

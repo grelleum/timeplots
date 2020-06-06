@@ -24,7 +24,6 @@ def bump_version_in_file(filename, regex, replacement):
 
 
 # bump_version_in_file("docs/index.rst", py_regex, py_replacement)
-bump_version_in_file("README.md", py_regex, py_replacement)
+bump_version_in_file("README.rst", py_regex, py_replacement)
 bump_version_in_file("setup.py", py_regex, py_replacement)
-bump_version_in_file("timeplots/timeplots.py", py_regex, py_replacement)
-# bump_version_in_file("timeplots/about.py", py_regex, py_replacement)
+bump_version_in_file("timeplots/__init__.py", py_regex, py_replacement)
