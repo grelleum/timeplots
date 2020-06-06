@@ -107,3 +107,5 @@ data/*
 *.html
 timeplots.ipynb
 syslog.all.txt
+install.sh
+magic_script.tmp.bx4
