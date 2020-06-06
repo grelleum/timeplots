@@ -215,9 +215,9 @@ class TimeParser(object):
         )
 
 
-def missing_time_data(timestamps, data, *, default=0):
+def missing_time_data(timestamps, *data, *, default=float("nan")):
     """
-    Fill in missing times with a default value, usually zero.
+    Fill in missing times with a default value or "not a number".
 
     timestamps is a sequence of times in the datetime format.
     data is a sequence of values matching those timestamps.
