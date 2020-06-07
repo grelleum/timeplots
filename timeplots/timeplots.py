@@ -36,7 +36,7 @@ class Plotter(object):
         self.plots = []
         self.active_plot = None
 
-    def new_plot(self, title, units, line_width=None):
+    def new_plot(self, title, units, *, line_width=None, precision=2):
         """
         Creates a blank line plot for with timestamps on the x-axis and
         a line for each data series on the y-axis.
@@ -62,6 +62,7 @@ class Plotter(object):
         # https://bokeh.pydata.org/en/latest/docs/reference/models/formatters.html
         plot.yaxis.formatter = models.NumeralTickFormatter(format="0a")
 
+        units_formats = f"@y{{1.{'1' * precision}}}"
         hover = models.HoverTool(
             # mode = vline would be nice to use,
             # but then separate hovers block each when lines are too close.
@@ -73,7 +74,7 @@ class Plotter(object):
             tooltips=[
                 ("Name", "$name"),
                 ("Time", "@x{%a %m/%d %H:%M:%S}"),
-                (self.units, "@y{1.11}"),
+                (self.units, units_formats),
             ],
             formatters={"x": "datetime", "Time": "datetime", "@x": "datetime"},
         )
