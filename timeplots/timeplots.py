@@ -73,7 +73,7 @@ class Plotter(object):
             tooltips=[
                 ("Name", "$name"),
                 ("Time", "@x{%a %m/%d %H:%M:%S}"),
-                (self.units, "@y{0,0}"),
+                (self.units, "@y{1.11}"),
             ],
             formatters={"x": "datetime", "Time": "datetime", "@x": "datetime"},
         )
