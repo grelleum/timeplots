@@ -6,7 +6,7 @@ Change version number in this file and execute.
 
 import re
 
-version = "0.2.0"
+version = "0.2.1"
 print('"version: {}"'.format(version))
 
 
