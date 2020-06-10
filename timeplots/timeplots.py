@@ -20,10 +20,11 @@ from bokeh import layouts, models, plotting, palettes
 class Plotter(object):
     """
     Usage:
-    plotter = Plotter()
+    plotter = timeplots.Plotter()
     plotter.new_plot("Interface Eth0 Packets Per Second", "pps")
     plotter.add_line("rx", timestamps, rx_data)
     plotter.add_line("tx", timestamps, tx_data)
+    plotter.render("optional_filename.html")
 
     """
 
