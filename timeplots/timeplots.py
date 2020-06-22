@@ -61,7 +61,8 @@ class Plotter(object):
         plot.xaxis.formatter = models.DatetimeTickFormatter(**datetime_tick_formats)
 
         # https://bokeh.pydata.org/en/latest/docs/reference/models/formatters.html
-        plot.yaxis.formatter = models.NumeralTickFormatter(format="0a")
+        # plot.yaxis.formatter = models.NumeralTickFormatter(format="0a")
+        plot.yaxis.formatter = models.NumeralTickFormatter(format="0,0.00 a")
 
         units_formats = f"@y{{1.{'1' * precision}}}"
         hover = models.HoverTool(
