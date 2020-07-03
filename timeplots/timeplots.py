@@ -64,7 +64,11 @@ class Plotter(object):
         # plot.yaxis.formatter = models.NumeralTickFormatter(format="0a")
         plot.yaxis.formatter = models.NumeralTickFormatter(format="0,0.00 a")
 
-        units_formats = f"@y{{1.{'1' * precision}}}"
+        # With default precision level 2 (decimal places)
+        # The units_formats = "@y{0,0.00}"
+        # and the value would look like 1,234,567.89
+        units_formats = f"@y{{0,0.{'0' * precision}}}"
+
         hover = models.HoverTool(
             # mode = vline would be nice to use,
             # but then separate hovers block each when lines are too close.
