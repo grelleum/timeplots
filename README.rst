@@ -21,7 +21,7 @@ timeplots
 
 Bokeh wrapper for creating time based line plots.
 
-version = "0.2.1"
+version = "0.2.2"
 
 * Free software: MIT license
 * Documentation: https://timeplots.readthedocs.io.
